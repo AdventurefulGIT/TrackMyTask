@@ -6,6 +6,8 @@ import smtplib
 import time
 import json
 
+
+
 class Statistics:
     def __init__(self):
         self.data = json.load(open('database.json'))
