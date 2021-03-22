@@ -111,27 +111,27 @@ class Statistics:
 
 
 
-if __name__ == '__main__':
-    main_statistics = Statistics()
 
-    newThread = Thread(target=main_statistics.run)
-    newThread.daemon = True
-    newThread.start()
+main_statistics = Statistics()
 
-    app = Flask(__name__)
-    app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+newThread = Thread(target=main_statistics.run)
+newThread.daemon = True
+newThread.start()
 
-    @app.route('/')
-    def index():
-        return main_statistics.data
+app = Flask(__name__)
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
-    @app.route('/events', methods=['POST'])
-    def events():
-        if request.method == 'POST':
-            try:
-                main_statistics.complete_task(request.json['event_type'])
-                return 'sucess', 200
-            except Exception as e:
-                return f'invalid params {e}', 404
-        else:
-            abort(400)
+@app.route('/')
+def index():
+    return main_statistics.data
+
+@app.route('/events', methods=['POST'])
+def events():
+    if request.method == 'POST':
+        try:
+            main_statistics.complete_task(request.json['event_type'])
+            return 'sucess', 200
+        except Exception as e:
+            return f'invalid params {e}', 404
+    else:
+        abort(400)
